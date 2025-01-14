@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url('/fonts/inter-var.woff2') format('woff2');
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 174 60% 15%;
+    
+    /* Primary Colors */
+    --primary: 174 63% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Card Colors */
+    --card-background: #FFFFFF;
+    --card-hover: #F8FDFB;
+    --card-border: rgba(64, 224, 208, 0.2);
+    --dark-card-background: rgba(17, 24, 39, 0.8);
+    --dark-card-hover: rgba(31, 41, 55, 0.8);
+    --dark-card-border: rgba(64, 224, 208, 0.1);
+
+    /* Tab Colors */
+    --tab-list-background: #F0F9F6;
+    --tab-active: #40E0D0;
+    --tab-hover: #E0F4ED;
+    --tab-text: #4A5568;
+    --tab-active-text: #FFFFFF;
+    --dark-tab-list-background: #1A2625;
+    --dark-tab-hover: #223231;
+
+    /* Other UI Colors */
+    --secondary: 174 50% 90%;
+    --secondary-foreground: 174 60% 15%;
+    --muted: 174 50% 90%;
+    --muted-foreground: 174 30% 45%;
+    --accent: 174 63% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 174 50% 85%;
+    --input: 174 50% 85%;
+    --ring: 174 63% 40%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 174 40% 10%;
+    --foreground: 174 30% 90%;
+    
+    /* Dark Mode Colors */
+    --card-background: var(--dark-card-background);
+    --card-hover: var(--dark-card-hover);
+    --card-border: var(--dark-card-border);
+    --tab-list-background: var(--dark-tab-list-background);
+    --tab-hover: var(--dark-tab-hover);
+    
+    /* Other Dark Mode UI Colors */
+    --secondary: 174 40% 20%;
+    --secondary-foreground: 174 30% 90%;
+    --muted: 174 40% 20%;
+    --muted-foreground: 174 30% 70%;
+    --accent: 174 63% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 174 40% 25%;
+    --input: 174 40% 25%;
+    --ring: 174 63% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Card styles */
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--card-border);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background-color: var(--card-hover);
+}
+
+/* Tab styles */
+.tab-list {
+  background-color: var(--tab-list-background);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+}
+
+.tab {
+  color: var(--tab-text);
+  transition: all 0.3s ease;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+}
+
+.tab:hover {
+  background-color: var(--tab-hover);
+}
+
+.tab[data-state="active"] {
+  background-color: var(--tab-active);
+  color: var(--tab-active-text);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(to right, #40E0D0, #48D1CC);
+  -webkit-background-clip: text;
+  color: transparent;
+}
