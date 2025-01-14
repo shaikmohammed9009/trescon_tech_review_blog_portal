@@ -6,7 +6,7 @@ if (!API_URL) {
   throw new Error('NEXT_PUBLIC_API_URL environment variable is not set');
 }
 
-export async function getBlogPosts(categoryId?: number, page: number = 1, limit: number = 6): Promise<ApiResponse<BlogPost>> {
+export async function getBlogPosts(categoryId?: number, page: number = 1, limit: number = 20): Promise<ApiResponse<BlogPost>> {
   const offset = (page - 1) * limit;
   let baseUrl = `${API_URL}/items/blog_posts?fields=*,content_type.content_type_name,category.id,category.blog_category_name&limit=${limit}&offset=${offset}`;
   
@@ -14,11 +14,7 @@ export async function getBlogPosts(categoryId?: number, page: number = 1, limit:
     baseUrl += `&filter[category][id][_eq]=${categoryId}`;
   }
     
-  const res = await fetch(baseUrl, { 
-    next: { 
-      revalidate: 3600 // Cache for 1 hour
-    } 
-  });
+  const res = await fetch(baseUrl);
   
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts');
@@ -30,11 +26,7 @@ export async function getBlogPosts(categoryId?: number, page: number = 1, limit:
 export async function getSingleBlogPost(slug: string): Promise<BlogPost> {
   const url = `${API_URL}/items/blog_posts?fields=*,content_type.content_type_name,category.id,category.blog_category_name&filter[slug_url][_eq]=${slug}&limit=1`;
   
-  const res = await fetch(url, {
-    next: {
-      revalidate: 3600 // Cache for 1 hour
-    }
-  });
+  const res = await fetch(url);
 
   if (!res.ok) {
     throw new Error('Failed to fetch blog post');
@@ -52,11 +44,7 @@ export async function getSingleBlogPost(slug: string): Promise<BlogPost> {
 export async function getRelatedPosts(categoryId: number, currentPostId: number): Promise<BlogPost[]> {
   const url = `${API_URL}/items/blog_posts?fields=*,content_type.content_type_name,category.id,category.blog_category_name&filter[category][id][_eq]=${categoryId}&filter[id][_neq]=${currentPostId}&limit=3`;
   
-  const res = await fetch(url, { 
-    next: { 
-      revalidate: 3600 // Cache for 1 hour
-    } 
-  });
+  const res = await fetch(url);
   
   if (!res.ok) {
     throw new Error('Failed to fetch related posts');
@@ -68,11 +56,7 @@ export async function getRelatedPosts(categoryId: number, currentPostId: number)
 
 export async function getBlogCategories(): Promise<ApiResponse<BlogCategory>> {
   const url = `${API_URL}/items/blog_category?fields=id,blog_category_name`;
-  const res = await fetch(url, { 
-    next: { 
-      revalidate: 3600 // Cache for 1 hour
-    } 
-  });
+  const res = await fetch(url);
   
   if (!res.ok) {
     throw new Error('Failed to fetch blog categories');
@@ -84,11 +68,7 @@ export async function getBlogCategories(): Promise<ApiResponse<BlogCategory>> {
 export async function getFAQs(): Promise<FAQ[]> {
   const url = `${API_URL}/items/faqs_list?fields=faq_question,faq_answer`;
   
-  const res = await fetch(url, {
-    next: {
-      revalidate: 3600 // Cache for 1 hour
-    }
-  });
+  const res = await fetch(url);
 
   if (!res.ok) {
     throw new Error('Failed to fetch FAQs');

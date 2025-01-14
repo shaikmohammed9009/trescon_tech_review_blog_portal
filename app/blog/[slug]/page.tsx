@@ -11,15 +11,13 @@ import { BlogSocialFooter } from "@/components/blog-social-footer";
 import EnhancedMarkdownRenderer from "@/components/EnhancedMarkdownRenderer";
 import type { BlogPost } from "@/lib/types";
 
-type Props = {
+interface PageProps {
   params: { slug: string };
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// This will pre-render all known blog posts at build time
 export async function generateStaticParams() {
   try {
-    // Fetch all posts without pagination to get all slugs
     const { data } = await getBlogPosts(undefined, 1, 1000);
     return data.map((post) => ({
       slug: post.slug_url,
@@ -31,10 +29,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: { params: { slug: string } }
+  props: PageProps
 ): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getSingleBlogPost(slug);
+  const post = await getSingleBlogPost(props.params.slug);
   
   return {
     title: post.title,
@@ -47,8 +44,8 @@ export async function generateMetadata(
   };
 }
 
-export default async function BlogPost({ params, searchParams }: { params: { slug: string }, searchParams: Record<string, string | string[] | undefined> }) {
-  const { slug } = await params;
+export default async function BlogPost(props: PageProps) {
+  const { params: { slug }, searchParams } = props;
   const post = await getSingleBlogPost(slug);
   const relatedPosts = await getRelatedPosts(post.category.id, post.id);
   const faqs = await getFAQs();
