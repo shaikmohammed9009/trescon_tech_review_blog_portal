@@ -14,7 +14,7 @@ export async function getBlogPosts(categoryId?: number, page: number = 1, limit:
     baseUrl += `&filter[category][id][_eq]=${categoryId}`;
   }
     
-  const res = await fetch(baseUrl);
+  const res = await fetch(baseUrl, { cache: 'no-store' });
   
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts');
@@ -26,7 +26,7 @@ export async function getBlogPosts(categoryId?: number, page: number = 1, limit:
 export async function getSingleBlogPost(slug: string): Promise<BlogPost> {
   const url = `${API_URL}/items/blog_posts?fields=*,content_type.content_type_name,category.id,category.blog_category_name&filter[slug_url][_eq]=${slug}&limit=1`;
   
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
     throw new Error('Failed to fetch blog post');
@@ -44,7 +44,7 @@ export async function getSingleBlogPost(slug: string): Promise<BlogPost> {
 export async function getRelatedPosts(categoryId: number, currentPostId: number): Promise<BlogPost[]> {
   const url = `${API_URL}/items/blog_posts?fields=*,content_type.content_type_name,category.id,category.blog_category_name&filter[category][id][_eq]=${categoryId}&filter[id][_neq]=${currentPostId}&limit=3`;
   
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-store' });
   
   if (!res.ok) {
     throw new Error('Failed to fetch related posts');
@@ -56,7 +56,7 @@ export async function getRelatedPosts(categoryId: number, currentPostId: number)
 
 export async function getBlogCategories(): Promise<ApiResponse<BlogCategory>> {
   const url = `${API_URL}/items/blog_category?fields=id,blog_category_name`;
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-store' });
   
   if (!res.ok) {
     throw new Error('Failed to fetch blog categories');
@@ -68,7 +68,7 @@ export async function getBlogCategories(): Promise<ApiResponse<BlogCategory>> {
 export async function getFAQs(): Promise<FAQ[]> {
   const url = `${API_URL}/items/faqs_list?fields=faq_question,faq_answer`;
   
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
     throw new Error('Failed to fetch FAQs');

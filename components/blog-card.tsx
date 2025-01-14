@@ -61,7 +61,7 @@ export function BlogCard({ post }: BlogCardProps) {
                 asChild
                 className="text-[var(--tab-active)] hover:bg-[var(--tab-active)]/10"
               >
-                <Link href={`/blog/${post.slug_url}`} className="flex items-center gap-2">
+                <Link href={`/blog/${post.slug_url}`} target="_blank" className="flex items-center gap-2">
                   Read More
                   <ArrowRight className="h-4 w-4" />
                 </Link>

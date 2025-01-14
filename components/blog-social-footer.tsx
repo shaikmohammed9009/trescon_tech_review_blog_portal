@@ -42,6 +42,10 @@ export function BlogSocialFooter({ title, url }: BlogSocialFooterProps) {
     },
   ];
 
+  const handleLinkClick = (href: string) => {
+    window.open(href, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="border-t border-b py-6 my-8">
       <div className="flex flex-col items-center gap-4">
@@ -53,19 +57,12 @@ export function BlogSocialFooter({ title, url }: BlogSocialFooterProps) {
               variant="outline"
               size="lg"
               className={`h-12  rounded-full border-2 ${social.color} transition-all duration-300`}
-              onClick={social.onClick}
-              {...(social.href && {
-                as: "a",
-                href: social.href,
-                target: "_blank",
-                rel: "noopener noreferrer",
-              })}
+              onClick={social.href ? () => handleLinkClick(social.href) : social.onClick}
             >
               <social.icon className="h-5 w-5 text-black" />
               <span className="sr-only">Share on {social.name}</span>
             </Button>
           ))}
-
         </div>
       </div>
     </div>
